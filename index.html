@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Protocolo JSON Ancla | ESG Experience™</title>
+  <meta name="description" content="Convierte una imagen de referencia en una identidad visual coherente usando el Protocolo JSON Ancla de ESG Experience." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --stone:#C8B49A; --cream:#F8F4EC; --cream2:#EFE6D8; --cream3:#E5D8C7;
+      --body:#3D2010; --brown:#7B4F24; --brown2:#A0622A; --deep:#5C2E0E;
+      --gold1:#8B6914; --gold2:#D4A017; --gold3:#F5D78E; --black:#0A0A0A;
+      --line:rgba(123,79,36,.22); --line2:rgba(201,166,70,.38);
+      --shadow:0 28px 80px rgba(61,32,16,.18), 0 10px 24px rgba(61,32,16,.12), inset 0 1px 0 rgba(255,255,255,.35);
+      --goldgrad:linear-gradient(160deg,#8B6914 0%,#D4A017 36%,#F5D78E 50%,#D4A017 64%,#8B6914 100%);
+      --leather:linear-gradient(160deg,#1A0A02 0%,#5C2E0E 20%,#A05A28 35%,#D4965A 48%,#A05A28 62%,#5C2E0E 80%,#1A0A02 100%);
+      --radius:28px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+    html{scroll-behavior:smooth}
+    body{
+      min-height:100vh; color:var(--body); font-family:'DM Sans',system-ui,sans-serif; overflow-x:hidden;
+      background-color:var(--stone);
+      background-image:linear-gradient(rgba(248,244,236,.18),rgba(200,180,154,.10)), url('assets/esg-stone-bg.jpg');
+      background-size:cover; background-position:center; background-repeat:no-repeat;
+    }
+    @media(min-width:900px){body{background-attachment:fixed}}
+    body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;background:radial-gradient(circle at 50% 0%,rgba(255,251,240,.76),rgba(248,244,236,.24) 38%,rgba(160,98,42,.08) 100%)}
+    .progress{position:fixed;top:0;left:0;height:3px;width:0;background:var(--goldgrad);z-index:200}
+    .top{position:sticky;top:0;z-index:90;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 18px;background:rgba(248,244,236,.78);backdrop-filter:blur(20px);border-bottom:1px solid rgba(123,79,36,.16);box-shadow:0 8px 30px rgba(61,32,16,.08)}
+    .brand{font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:#2A170B;font-weight:600;white-space:nowrap}
+    .topnav{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+    .topnav a,.topnav button{border:1px solid rgba(123,79,36,.24);background:rgba(248,244,236,.5);color:var(--body);text-decoration:none;font:600 9px/1 'DM Sans';letter-spacing:.14em;text-transform:uppercase;padding:8px 12px;border-radius:999px;box-shadow:0 8px 18px rgba(61,32,16,.08);cursor:pointer}
+    .hero{max-width:1120px;margin:0 auto;padding:52px 18px 24px;display:grid;grid-template-columns:1.05fr .95fr;gap:28px;align-items:center}
+    .eyebrow{font-size:10px;letter-spacing:.30em;text-transform:uppercase;color:var(--brown);font-weight:700;margin-bottom:14px}
+    .rule{width:min(360px,70vw);height:1px;background:linear-gradient(90deg,var(--brown),var(--gold2),transparent);margin:0 0 22px;position:relative}
+    .rule:after{content:"";position:absolute;left:0;top:-3px;width:44px;height:7px;background:radial-gradient(ellipse,var(--gold3),transparent 70%);filter:blur(1px)}
+    h1,h2,h3,h4{font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;color:#251206;text-wrap:balance}
+    h1{font-size:clamp(52px,9vw,102px);line-height:.90;letter-spacing:-.045em;text-shadow:0 2px 0 rgba(255,255,255,.34),0 18px 42px rgba(92,46,14,.18)}
+    h2{font-size:clamp(38px,6vw,68px);line-height:.98;letter-spacing:-.035em;text-shadow:0 2px 0 rgba(255,255,255,.32),0 15px 34px rgba(92,46,14,.14)}
+    h3{font-size:clamp(28px,4vw,40px);line-height:1.05;letter-spacing:-.02em}
+    .gold{font-style:italic;background:linear-gradient(160deg,#1A0A02 0%,#8B6914 20%,#D4A017 35%,#F5D78E 44%,#FFFBF0 50%,#F5D78E 56%,#D4A017 65%,#8B6914 80%,#1A0A02 100%);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:none}
+    .lead{font-size:clamp(16px,2vw,19px);line-height:1.75;color:rgba(61,32,16,.78);max-width:660px;margin:22px 0 26px}
+    .hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+    .btn{appearance:none;border:1px solid rgba(245,215,142,.35);border-radius:999px;background:linear-gradient(160deg,#0A0A0A 0%,#211006 100%);color:var(--cream);text-decoration:none;padding:14px 19px;font:600 10px/1 'DM Sans';letter-spacing:.16em;text-transform:uppercase;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 16px 36px rgba(10,10,10,.20);transition:.2s ease}
+    .btn:hover{transform:translateY(-2px)}
+    .btn.light{background:rgba(248,244,236,.54);color:var(--body);border-color:rgba(123,79,36,.28);box-shadow:0 12px 26px rgba(61,32,16,.10)}
+    .visual-card{position:relative;border-radius:32px;background:linear-gradient(145deg,rgba(248,244,236,.78),rgba(239,230,216,.52));border:1px solid rgba(255,255,255,.48);box-shadow:var(--shadow);padding:14px;overflow:hidden}
+    .visual-card:before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.34),transparent 42%,rgba(212,160,23,.10));pointer-events:none}
+    .visual-card img{display:block;width:100%;border-radius:22px;box-shadow:0 18px 50px rgba(61,32,16,.18)}
+    .seal{position:absolute;right:18px;bottom:18px;width:56px;height:auto;filter:drop-shadow(0 10px 16px rgba(61,32,16,.24))}
+    .navcards{max-width:1120px;margin:8px auto 30px;padding:0 18px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+    .navcard{text-align:left;border:1px solid rgba(255,255,255,.42);border-radius:24px;background:linear-gradient(145deg,rgba(248,244,236,.76),rgba(239,230,216,.48));box-shadow:var(--shadow);padding:18px 16px;text-decoration:none;color:var(--body);min-height:106px;position:relative;overflow:hidden;transition:.2s ease}
+    .navcard:hover{transform:translateY(-5px)}
+    .navcard span{display:block;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--brown);font-weight:700;margin-bottom:12px}
+    .navcard strong{display:block;font-family:'Cormorant Garamond';font-size:27px;font-weight:300;line-height:1;color:#251206}
+    main{max-width:1120px;margin:0 auto 70px;padding:0 18px}
+    section.block{scroll-margin-top:86px;margin:20px 0 26px}
+    .section-head{text-align:center;margin:0 auto 22px;max-width:760px}
+    .section-head p{font-size:15px;line-height:1.75;color:rgba(61,32,16,.72);margin-top:12px}
+    .card{background:linear-gradient(145deg,rgba(248,244,236,.78),rgba(239,230,216,.56));border:1px solid rgba(255,255,255,.46);border-radius:28px;box-shadow:var(--shadow);padding:clamp(20px,4vw,30px);backdrop-filter:blur(7px);margin:14px 0;position:relative;overflow:hidden}
+    .card.dark{background:linear-gradient(160deg,#0A0A0A 0%,#211006 100%);color:var(--cream);border-color:rgba(245,215,142,.22)}
+    .card.dark h3,.card.dark h2{color:var(--cream)}
+    .card.dark p,.card.dark li{color:rgba(248,244,236,.78)}
+    .kicker{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--brown);font-weight:700;margin-bottom:10px}
+    .card.dark .kicker{color:var(--gold3)}
+    .text{font-size:14px;line-height:1.85;color:rgba(61,32,16,.78)}
+    .text strong{color:#251206}
+    .card.dark .text strong{color:var(--cream)}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .step{display:grid;grid-template-columns:58px 1fr;gap:16px;align-items:start;padding:18px;border:1px solid rgba(123,79,36,.20);border-radius:22px;background:rgba(248,244,236,.42)}
+    .num{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--goldgrad);color:#1a0a02;font-family:'Cormorant Garamond';font-size:32px;box-shadow:0 10px 24px rgba(139,105,20,.22)}
+    .step h4{font-size:28px;margin-bottom:6px}
+    .step p{font-size:13px;line-height:1.65;color:rgba(61,32,16,.74)}
+    .quote{border-left:2px solid var(--gold2);padding:14px 18px;background:rgba(212,160,23,.08);font-family:'Cormorant Garamond';font-size:clamp(25px,4vw,38px);line-height:1.05;color:#251206;margin-top:16px}
+    .mini{border:1px solid rgba(123,79,36,.22);border-radius:22px;padding:18px;background:rgba(248,244,236,.42)}
+    .mini h4{font-size:26px;margin-bottom:6px}.mini p{font-size:13px;line-height:1.7;color:rgba(61,32,16,.74)}
+    .prompt-wrap{background:rgba(10,10,10,.90);color:var(--cream2);border:1px solid rgba(212,160,23,.28);border-radius:24px;overflow:hidden;box-shadow:0 24px 60px rgba(10,10,10,.18)}
+    .prompt-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;border-bottom:1px solid rgba(212,160,23,.18)}
+    .prompt-head span{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold3);font-weight:700}
+    .copy{border:1px solid rgba(245,215,142,.35);background:rgba(212,160,23,.10);color:var(--gold3);font:700 9px/1 'DM Sans';letter-spacing:.13em;text-transform:uppercase;padding:8px 12px;border-radius:999px;cursor:pointer;white-space:nowrap}
+    .copy.ok{background:rgba(212,160,23,.24)}
+    pre{white-space:pre-wrap;word-break:break-word;font:400 13px/1.72 'DM Sans';padding:18px;max-height:540px;overflow:auto;color:var(--cream2)}
+    .builder{display:grid;grid-template-columns:.9fr 1.1fr;gap:16px;align-items:start}
+    label{display:block;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--brown);font-weight:700;margin:14px 0 8px}
+    input,textarea{width:100%;border-radius:16px;border:1px solid rgba(123,79,36,.28);background:rgba(248,244,236,.66);padding:13px 14px;color:var(--body);font:400 14px/1.5 'DM Sans';outline:none}
+    textarea{min-height:88px;resize:vertical}
+    input:focus,textarea:focus{border-color:var(--gold1);box-shadow:0 0 0 4px rgba(212,160,23,.13)}
+    .preview img{width:100%;border-radius:20px;border:1px solid rgba(123,79,36,.18);box-shadow:0 18px 40px rgba(61,32,16,.12)}
+    .thumbs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+    .thumbs img{width:100%;border-radius:14px;border:1px solid rgba(123,79,36,.16);box-shadow:0 10px 22px rgba(61,32,16,.10)}
+    .footer{max-width:1120px;margin:0 auto;padding:30px 18px 46px;text-align:center;color:rgba(61,32,16,.66)}
+    .footer .line{height:1px;background:linear-gradient(90deg,transparent,var(--brown),var(--gold2),transparent);margin-bottom:18px}
+    .footer p{font-size:12px;letter-spacing:.18em;text-transform:uppercase}.footer a{color:var(--body);text-decoration:none;border-bottom:1px solid rgba(123,79,36,.32)}
+    .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(120%);background:rgba(10,10,10,.94);color:var(--cream);padding:12px 18px;border-radius:999px;z-index:999;transition:.25s ease;font-size:13px}.toast.show{transform:translateX(-50%) translateY(0)}
+    .to-top{position:fixed;right:18px;bottom:18px;z-index:95;width:46px;height:46px;border-radius:50%;border:1px solid rgba(123,79,36,.25);background:rgba(248,244,236,.78);backdrop-filter:blur(12px);color:var(--body);font-size:20px;cursor:pointer;box-shadow:0 14px 34px rgba(61,32,16,.16);display:none}.to-top.show{display:block}
+    @media(max-width:880px){.hero{grid-template-columns:1fr}.navcards{grid-template-columns:repeat(2,1fr)}.grid2,.builder{grid-template-columns:1fr}.grid3{grid-template-columns:1fr}.top{align-items:flex-start}.brand{font-size:8px}.topnav a,.topnav button{font-size:8px;padding:7px 9px}.hero{padding-top:38px}.hero-actions .btn{width:100%}.thumbs{grid-template-columns:1fr}.seal{width:44px}}
+    @media(max-width:520px){.navcards{grid-template-columns:1fr}.visual-card{padding:10px}.card{border-radius:22px}.step{grid-template-columns:44px 1fr;padding:14px}.num{width:42px;height:42px;font-size:26px}h1{font-size:54px}.hero{padding-left:14px;padding-right:14px}}
+  </style>
+</head>
+<body>
+  <div class="progress" id="progress"></div>
+  <header class="top">
+    <div class="brand">ESG Experience™</div>
+    <nav class="topnav">
+      <a href="#proceso">Proceso</a>
+      <a href="#prompt">Prompt</a>
+      <a href="https://www.instagram.com/eilensg" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://wa.me/17863032835" target="_blank" rel="noopener">WhatsApp</a>
+    </nav>
+  </header>
+
+  <section class="hero" id="inicio">
+    <div>
+      <div class="eyebrow">Protocolo JSON Ancla</div>
+      <div class="rule"></div>
+      <h1>De una foto a tu <span class="gold">marca</span></h1>
+      <p class="lead">Un sistema práctico para extraer la estructura visual de una referencia y adaptarla a tu identidad visual sin copiar la imagen original.</p>
+      <div class="hero-actions">
+        <a class="btn" href="#prompt">Usar prompt maestro</a>
+        <a class="btn light" href="#proceso">Ver proceso</a>
+      </div>
+    </div>
+    <div class="visual-card">
+      <img src="assets/pdf-page-1.jpg" alt="Portada Protocolo JSON Ancla" />
+      <img class="seal" src="assets/esg-butterfly.png" alt="Mariposa ESG" />
+    </div>
+  </section>
+
+  <nav class="navcards" aria-label="Navegación de la guía">
+    <a class="navcard" href="#clave"><span>01</span><strong>La clave</strong></a>
+    <a class="navcard" href="#proceso"><span>02</span><strong>Proceso ESG</strong></a>
+    <a class="navcard" href="#prompt"><span>03</span><strong>Prompt maestro</strong></a>
+    <a class="navcard" href="#uso"><span>04</span><strong>Uso final</strong></a>
+  </nav>
+
+  <main>
+    <section class="block" id="clave">
+      <div class="section-head">
+        <div class="eyebrow">El fin de los prompts que salen mal</div>
+        <h2>La clave no es el <span class="gold">JSON</span></h2>
+        <p>La tendencia en redes es pedirle a ChatGPT el JSON de una imagen. Pero copiar una estructura no crea una marca. Lo que crea marca es adaptar esa estructura a tus anclas de identidad.</p>
+      </div>
+      <div class="grid3">
+        <div class="mini">
+          <h4>Referencia</h4>
+          <p>La imagen te inspira y muestra una composición, luz, pose, atmósfera o dirección que quieres usar como punto de partida.</p>
+        </div>
+        <div class="mini">
+          <h4>JSON</h4>
+          <p>El JSON contiene la estructura visual que la IA está viendo. Es una lectura técnica, no una identidad de marca.</p>
+        </div>
+        <div class="mini">
+          <h4>Ancla</h4>
+          <p>El ancla fija lo que no debe cambiar: avatar, colores, fondo, estilo, elementos de marca y esencia visual.</p>
+        </div>
+      </div>
+      <div class="quote">No es copiar la foto. <br>Es extraer su esencia y adaptarla a tu marca.</div>
+    </section>
+
+    <section class="block" id="proceso">
+      <div class="section-head">
+        <div class="eyebrow">El proceso ESG</div>
+        <h2>De una foto a tu <span class="gold">marca</span></h2>
+        <p>Un flujo simple para transformar cualquier imagen en una identidad visual coherente y profesional.</p>
+      </div>
+      <div class="grid2">
+        <div class="card">
+          <div class="step">
+            <div class="num">1</div>
+            <div><h4>Referencia</h4><p>Usas una imagen de referencia que te inspira.</p></div>
+          </div>
+          <div class="step" style="margin-top:12px">
+            <div class="num">2</div>
+            <div><h4>Extraes el JSON</h4><p>Obtienes la estructura visual completa que la IA detecta.</p></div>
+          </div>
+          <div class="step" style="margin-top:12px">
+            <div class="num">3</div>
+            <div><h4>Aplicas tus anclas</h4><p>Adaptas el JSON a tu rostro, colores, fondo, estilo y elementos fijos.</p></div>
+          </div>
+          <div class="step" style="margin-top:12px">
+            <div class="num">4</div>
+            <div><h4>Resultado ESG</h4><p>Imágenes coherentes, alineadas a tu marca, listas para convertir y posicionar.</p></div>
+          </div>
+        </div>
+        <div class="card preview">
+          <div class="kicker">Referencia visual del PDF</div>
+          <img src="assets/pdf-page-2.jpg" alt="Proceso ESG de una foto a tu marca" />
+        </div>
+      </div>
+    </section>
+
+    <section class="block" id="prompt">
+      <div class="section-head">
+        <div class="eyebrow">Prompt maestro</div>
+        <h2>Completa tus <span class="gold">anclas</span></h2>
+        <p>Llena los campos y el generador actualizará el prompt para que puedas copiarlo y usarlo con tu imagen de referencia.</p>
+      </div>
+      <div class="builder">
+        <div class="card">
+          <div class="kicker">Mis anclas fijas</div>
+          <h3>Personaliza tu prompt</h3>
+          <label for="avatar">Avatar base</label>
+          <input id="avatar" value="usaré una imagen base" />
+          <label for="ropa">Colores de ropa</label>
+          <input id="ropa" placeholder="Ej. negro, marrón cuero, crema y acentos dorados" />
+          <label for="fondo">Fondo fijo</label>
+          <input id="fondo" placeholder="Ej. textura piedra beige cálida" />
+          <label for="estilo">Estilo de marca</label>
+          <input id="estilo" placeholder="Ej. editorial, premium, femenino estructurado" />
+          <label for="elementos">Elementos de marca</label>
+          <textarea id="elementos" placeholder="Ej. logo ESG, mariposa dorada, textura piedra, cuero editorial, tipografía elegante"></textarea>
+          <button class="btn" style="margin-top:16px;width:100%" onclick="updatePrompt();copyText('masterPrompt', this)">Actualizar y copiar</button>
+        </div>
+        <div class="prompt-wrap">
+          <div class="prompt-head"><span>Prompt maestro listo para copiar</span><button class="copy" onclick="copyText('masterPrompt', this)">Copiar</button></div>
+          <pre id="masterPrompt"></pre>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" id="uso">
+      <div class="grid2">
+        <div class="card dark">
+          <div class="kicker">Regla principal</div>
+          <h3>Misma esencia. Misma marca. Infinitas referencias.</h3>
+          <p class="text" style="margin-top:12px">Mantén estas anclas en todos los JSON que extraigas de futuras referencias. No quieres copiar la imagen original. Quieres conservar únicamente la estructura visual de la referencia y transformarla para que parezca parte de tu propia marca.</p>
+        </div>
+        <div class="card">
+          <div class="kicker">Uso final</div>
+          <h3>Cómo usarlo</h3>
+          <div class="text" style="margin-top:12px">
+            <p><strong>1.</strong> Abre un nuevo chat en modo imagen.</p>
+            <p><strong>2.</strong> Sube tu foto base.</p>
+            <p><strong>3.</strong> Pega el JSON adaptado.</p>
+            <p><strong>4.</strong> Genera tu nueva imagen.</p>
+            <p><strong>5.</strong> Repite el proceso con nuevas referencias manteniendo las mismas anclas.</p>
+          </div>
+        </div>
+      </div>
+      <div class="card preview">
+        <div class="kicker">Página original del prompt maestro</div>
+        <img src="assets/pdf-page-3.jpg" alt="Prompt maestro protocolo JSON Ancla" />
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="line"></div>
+    <p>Creado por <a href="https://instagram.com/eilensg" target="_blank" rel="noopener">@eilensg</a> · WhatsApp <a href="https://wa.me/17863032835" target="_blank" rel="noopener">786 303 2835</a></p>
+  </footer>
+
+  <button class="to-top" id="toTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+  <div class="toast" id="toast">Copiado</div>
+
+<script>
+const $ = (id)=>document.getElementById(id);
+function clean(v,fallback){return (v||'').trim() || fallback;}
+function buildPrompt(){
+  const avatar = clean($('avatar').value,'usaré una imagen base');
+  const ropa = clean($('ropa').value,'[escribir aquí]');
+  const fondo = clean($('fondo').value,'[escribir aquí]');
+  const estilo = clean($('estilo').value,'[escribir aquí]');
+  const elementos = clean($('elementos').value,'[escribir aquí]');
+  return `Voy a subir una imagen de referencia.
+
+Extrae el JSON visual completo de esta imagen.
+Después adapta ese JSON utilizando mis anclas de identidad.
+
+MIS ANCLAS FIJAS
+
+AVATAR BASE:
+${avatar}
+
+COLORES DE ROPA:
+${ropa}
+
+FONDO FIJO:
+${fondo}
+
+ESTILO DE MARCA:
+${estilo}
+
+ELEMENTOS DE MARCA:
+${elementos}
+
+REGLA PRINCIPAL
+Mantén estas anclas en todos los JSON que extraigas de futuras referencias.
+No quiero copiar la imagen original.
+Quiero conservar únicamente la estructura visual de la referencia y transformarla para que parezca parte de mi propia marca.
+
+ENTRÉGAME
+1. JSON original detectado.
+2. JSON adaptado a mis anclas.
+3. Lista de cambios realizados para mantener la coherencia visual.
+
+USO FINAL
+1. Abriré un nuevo chat en modo imagen.
+2. Subiré mi foto base.
+3. Pegaré el JSON adaptado.
+4. Generaré mi nueva imagen.
+5. Repetiré el proceso con nuevas referencias manteniendo las mismas anclas.
+
+IMPORTANTE
+No hagas una copia literal de la referencia.
+No cambies mi identidad base.
+No sustituyas mis colores, fondo fijo, estilo de marca ni elementos propietarios.
+Adapta la composición, luz, atmósfera, pose, profundidad y estructura visual de la referencia para que parezca parte de mi universo de marca.`;
+}
+function updatePrompt(){ $('masterPrompt').textContent = buildPrompt(); }
+function copyText(id,btn){
+  updatePrompt();
+  const text=$(id).textContent;
+  navigator.clipboard.writeText(text).then(()=>{
+    const original=btn.textContent; btn.classList.add('ok'); btn.textContent='Copiado'; showToast('Copiado');
+    setTimeout(()=>{btn.textContent=original; btn.classList.remove('ok')},1600);
+  }).catch(()=>{
+    const ta=document.createElement('textarea'); ta.value=text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); showToast('Copiado');
+  });
+}
+function showToast(msg){const t=$('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1700)}
+['avatar','ropa','fondo','estilo','elementos'].forEach(id=>$(id).addEventListener('input',updatePrompt));
+window.addEventListener('scroll',()=>{
+  const h=document.documentElement.scrollHeight-window.innerHeight;
+  const p=h>0?Math.round(window.scrollY/h*100):0;
+  $('progress').style.width=p+'%';
+  $('toTop').classList.toggle('show', window.scrollY>420);
+});
+updatePrompt();
+</script>
+</body>
+</html>
