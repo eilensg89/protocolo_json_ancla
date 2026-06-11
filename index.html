@@ -4,217 +4,259 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Protocolo JSON Ancla — ESG Experience™</title>
-  <meta name="description" content="Sistema práctico para extraer la estructura visual de una referencia y adaptarla a tu identidad visual sin copiar la imagen original." />
+  <meta name="description" content="Protocolo ESG corregido para convertir una referencia visual en una imagen de marca usando JSON, sujeto y guía de cambios." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root{
-      --stone:#C8B49A;--cream:#F8F4EC;--cream2:#EFE6D8;--cream3:#E5D8C7;
-      --body:#3D2010;--brown:#A0622A;--brown2:#7B4F24;--leather:#5C2E0E;
-      --gold-dark:#8B6914;--gold:#C9A646;--gold-light:#F5D78E;--black:#0A0A0A;
+      --stone:#C8B49A;--cream:#F8F4EC;--cream2:#EFE6D8;--body:#3D2010;--brown:#A0622A;--brown2:#7B4F24;--gold:#C9A646;--gold-dark:#8B6914;--gold-light:#F5D78E;--black:#0A0A0A;
       --goldgrad:linear-gradient(160deg,#8B6914 0%,#D4A017 35%,#F5D78E 50%,#D4A017 65%,#8B6914 100%);
-      --leathergrad:linear-gradient(160deg,#1A0A02 0%,#5C2E0E 20%,#A05A28 35%,#D4965A 48%,#A05A28 62%,#5C2E0E 80%,#1A0A02 100%);
       --shadow:0 28px 80px rgba(61,32,16,.18),0 8px 22px rgba(61,32,16,.12),inset 0 1px 0 rgba(255,255,255,.32);
-      --line:rgba(123,79,36,.22);
     }
     *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
     html{scroll-behavior:smooth}
     body{
       min-height:100vh;font-family:'DM Sans',system-ui,sans-serif;color:var(--body);overflow-x:hidden;
       background-color:var(--stone);
-      background-image:linear-gradient(rgba(248,244,236,.18),rgba(200,180,154,.08)),url('assets/esg-stone-bg.png');
+      background-image:linear-gradient(rgba(248,244,236,.20),rgba(200,180,154,.08)),url('assets/esg-stone-bg.png');
       background-size:cover;background-position:center;background-repeat:no-repeat;background-attachment:fixed;
     }
     body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;background:radial-gradient(circle at 50% 0%,rgba(255,251,240,.74),rgba(248,244,236,.22) 40%,rgba(160,98,42,.09) 100%)}
     .progress{position:fixed;top:0;left:0;height:3px;width:0;background:var(--goldgrad);z-index:100}
     .top{position:sticky;top:0;z-index:70;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 18px;background:rgba(248,244,236,.76);backdrop-filter:blur(20px);border-bottom:1px solid rgba(123,79,36,.14);box-shadow:0 8px 30px rgba(61,32,16,.08)}
-    .brand{display:flex;align-items:center;gap:10px;min-width:0}.brand img{width:64px;height:auto;object-fit:contain}.brand span{font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:#2a170b;white-space:nowrap}.links{display:flex;gap:8px;align-items:center}.links a,.mini-btn{border:1px solid rgba(123,79,36,.24);background:rgba(248,244,236,.44);color:#3D2010;text-decoration:none;font-size:9px;letter-spacing:.14em;text-transform:uppercase;padding:8px 11px;border-radius:999px;box-shadow:0 8px 18px rgba(61,32,16,.08);cursor:pointer;font-family:'DM Sans',sans-serif}
+    .brand{display:flex;align-items:center;gap:10px;min-width:0}.brand img{width:64px;height:auto;object-fit:contain}.brand span{font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:#2a170b;white-space:nowrap}
+    .links{display:flex;gap:8px;align-items:center}.links a,.mini-btn{border:1px solid rgba(123,79,36,.24);background:rgba(248,244,236,.44);color:#3D2010;text-decoration:none;font-size:9px;letter-spacing:.14em;text-transform:uppercase;padding:8px 11px;border-radius:999px;box-shadow:0 8px 18px rgba(61,32,16,.08);cursor:pointer;font-family:'DM Sans',sans-serif}
     .hero{max-width:1080px;margin:0 auto;padding:56px 18px 26px;text-align:center}.eyebrow{font-size:10px;letter-spacing:.32em;text-transform:uppercase;color:var(--brown2);font-weight:600;margin-bottom:14px}.rule{height:1px;width:min(340px,70vw);margin:0 auto 20px;background:linear-gradient(90deg,transparent,var(--brown2),var(--gold),transparent)}
-    h1,h2,h3{font-family:'Cormorant Garamond',serif;font-weight:300;color:#251206;text-wrap:balance}h1{font-size:clamp(48px,10vw,98px);line-height:.92;letter-spacing:-.04em;text-shadow:0 2px 0 rgba(92,46,14,.10),0 18px 38px rgba(92,46,14,.18)}h1 em,h2 em{font-style:italic;background:linear-gradient(160deg,#1A0A02 0%,#8B6914 20%,#D4A017 35%,#F5D78E 44%,#FFFBF0 50%,#F5D78E 56%,#D4A017 65%,#8B6914 80%,#1A0A02 100%);-webkit-background-clip:text;background-clip:text;color:transparent}h2{font-size:clamp(34px,7vw,58px);line-height:1;letter-spacing:-.03em;margin-bottom:10px}h3{font-size:30px;line-height:1.05;margin-bottom:8px}.hero p{max-width:690px;margin:20px auto 0;font-size:16px;line-height:1.8;color:rgba(61,32,16,.78)}
+    h1,h2,h3,h4{font-family:'Cormorant Garamond',serif;font-weight:300;color:#251206;text-wrap:balance}
+    h1{font-size:clamp(48px,10vw,98px);line-height:.92;letter-spacing:-.04em;text-shadow:0 2px 0 rgba(92,46,14,.10),0 18px 38px rgba(92,46,14,.18)}
+    h1 em,h2 em,h3 em{font-style:italic;background:linear-gradient(160deg,#1A0A02 0%,#8B6914 20%,#D4A017 35%,#F5D78E 44%,#FFFBF0 50%,#F5D78E 56%,#D4A017 65%,#8B6914 80%,#1A0A02 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+    h2{font-size:clamp(34px,7vw,58px);line-height:1;letter-spacing:-.03em;margin-bottom:10px}
+    h3{font-size:30px;line-height:1.05;margin-bottom:8px}
+    h4{font-size:26px;line-height:1.05;margin-bottom:6px}
+    .hero p{max-width:760px;margin:20px auto 0;font-size:16px;line-height:1.8;color:rgba(61,32,16,.78)}
     .seal{margin:24px auto 0;width:92px;height:92px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:linear-gradient(145deg,rgba(255,251,240,.72),rgba(200,180,154,.22));border:1px solid rgba(212,160,23,.48);box-shadow:0 18px 50px rgba(61,32,16,.18),inset 0 2px 8px rgba(255,255,255,.55)}.seal img{width:72px;height:auto;object-fit:contain;filter:drop-shadow(0 8px 12px rgba(92,46,14,.18))}
     .navcards{max-width:1060px;margin:18px auto 38px;padding:0 16px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.navcard{border:1px solid rgba(255,255,255,.42);cursor:pointer;text-align:left;padding:18px 16px;min-height:112px;border-radius:24px;background:linear-gradient(145deg,rgba(248,244,236,.76),rgba(239,230,216,.48));box-shadow:var(--shadow);transition:.24s ease;color:var(--body);position:relative;overflow:hidden;text-decoration:none}.navcard:hover{transform:translateY(-6px)}.navcard span{display:block;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--brown2);margin-bottom:14px}.navcard strong{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:28px;line-height:1;color:#251206}
-    main{max-width:980px;margin:0 auto 76px;padding:0 16px}.section-title{text-align:center;margin:0 0 22px}.section-title p{font-size:14px;line-height:1.75;max-width:680px;margin:12px auto 0;color:rgba(61,32,16,.72)}.card,.prompt,.step,.soft{background:linear-gradient(145deg,rgba(248,244,236,.78),rgba(239,230,216,.56));border:1px solid rgba(255,255,255,.46);border-radius:26px;box-shadow:var(--shadow);backdrop-filter:blur(8px)}.card{padding:24px;margin:14px 0}.kicker{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--brown2);font-weight:600;margin-bottom:8px}.txt{font-size:14px;line-height:1.85;color:rgba(61,32,16,.78)}.alert{border-left:2px solid var(--gold);padding:12px 14px;margin:14px 0;background:rgba(212,160,23,.10);font-size:13px;line-height:1.75;color:rgba(61,32,16,.78)}.quote{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,5vw,46px);line-height:1.05;text-align:center;margin:14px auto;color:#251206}.quote em{font-style:italic;color:var(--brown)}
-    .process{display:grid;gap:12px;margin-top:16px}.step{display:grid;grid-template-columns:58px 1fr;gap:16px;align-items:start;padding:18px}.num{width:48px;height:48px;border-radius:50%;background:var(--goldgrad);display:flex;align-items:center;justify-content:center;color:#1a0a02;font-family:'Cormorant Garamond',serif;font-size:29px;box-shadow:0 10px 22px rgba(139,105,20,.22)}.step h4{font-family:'Cormorant Garamond',serif;font-size:29px;font-weight:300;line-height:1;margin-bottom:5px;color:#251206}.step p{font-size:13px;line-height:1.65;color:rgba(61,32,16,.72)}
-    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.mini{padding:18px;border-radius:22px;background:rgba(248,244,236,.48);border:1px solid rgba(123,79,36,.18);box-shadow:0 12px 32px rgba(61,32,16,.10)}.mini b{display:block;font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;color:#251206;margin-bottom:5px}.mini p{font-size:13px;line-height:1.65;color:rgba(61,32,16,.74)}
-    .form{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}.field{display:flex;flex-direction:column;gap:7px}.field.full{grid-column:1/-1}label{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--brown2);font-weight:600}input,textarea{width:100%;border:1px solid rgba(123,79,36,.24);background:rgba(255,251,240,.5);border-radius:16px;padding:13px 14px;color:var(--body);font:400 14px/1.5 'DM Sans',sans-serif;outline:none}textarea{min-height:96px;resize:vertical}input:focus,textarea:focus{border-color:var(--gold-dark);box-shadow:0 0 0 4px rgba(212,160,23,.12)}
-    .prompt{margin:14px 0;overflow:hidden;background:rgba(10,10,10,.88);color:var(--cream2);border-color:rgba(212,160,23,.28);box-shadow:0 20px 48px rgba(10,10,10,.18)}.prompt-h{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 13px;border-bottom:1px solid rgba(212,160,23,.14)}.prompt-h span{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-light);opacity:.86}.copy{border:1px solid rgba(212,160,23,.34);background:rgba(212,160,23,.08);color:var(--gold-light);font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:7px 11px;border-radius:999px;cursor:pointer;font-family:'DM Sans',sans-serif}.copy.ok{background:rgba(212,160,23,.24)}pre{white-space:pre-wrap;word-break:break-word;font-family:'DM Sans',sans-serif;font-size:12px;line-height:1.75;padding:15px;max-height:420px;overflow:auto}.btn{appearance:none;border:1px solid rgba(245,215,142,.36);border-radius:999px;background:linear-gradient(160deg,#0A0A0A 0%,#2B1608 58%,#0A0A0A 100%);color:var(--cream);text-decoration:none;font-size:10px;letter-spacing:.16em;text-transform:uppercase;padding:12px 18px;cursor:pointer;box-shadow:0 14px 30px rgba(10,10,10,.18);font-family:'DM Sans',sans-serif}.btn.secondary{background:rgba(248,244,236,.52);color:var(--body);border-color:rgba(123,79,36,.28);box-shadow:0 8px 18px rgba(61,32,16,.08)}.btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.footer{max-width:980px;margin:0 auto;padding:24px 18px 46px;text-align:center}.footer .line{height:1px;background:linear-gradient(90deg,transparent,var(--brown2),var(--gold),transparent);margin-bottom:18px}.footer p{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:rgba(61,32,16,.62);line-height:1.8}.footer a{color:var(--body);text-decoration:none;border-bottom:1px solid rgba(123,79,36,.3)}.topbtn{position:fixed;right:16px;bottom:16px;z-index:80;display:none}.topbtn.show{display:block}
-    @media(max-width:820px){body{background-attachment:scroll}.navcards{grid-template-columns:1fr 1fr}.grid2,.grid3,.form{grid-template-columns:1fr}.field.full{grid-column:auto}.brand img{width:52px}.brand span{display:none}.links a{font-size:8px;padding:7px 9px}.step{grid-template-columns:46px 1fr}.num{width:40px;height:40px;font-size:24px}}
-    @media(max-width:520px){.hero{padding-top:38px}.navcards{grid-template-columns:1fr}.card{padding:20px;border-radius:22px}h1{font-size:52px}.quote{font-size:30px}.top{padding:10px 12px}}
+    main{max-width:980px;margin:0 auto 76px;padding:0 16px}.section-title{text-align:center;margin:0 0 22px}.section-title p{font-size:14px;line-height:1.75;max-width:720px;margin:12px auto 0;color:rgba(61,32,16,.72)}
+    .card,.prompt,.step,.soft,.mini{background:linear-gradient(145deg,rgba(248,244,236,.78),rgba(239,230,216,.56));border:1px solid rgba(255,255,255,.46);border-radius:26px;box-shadow:var(--shadow);backdrop-filter:blur(8px)}
+    .card{padding:24px;margin:14px 0}.soft{padding:18px}
+    .kicker{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--brown2);font-weight:600;margin-bottom:8px}.txt{font-size:14px;line-height:1.85;color:rgba(61,32,16,.78)}
+    .alert{border-left:2px solid var(--gold);padding:12px 14px;margin:14px 0;background:rgba(212,160,23,.10);font-size:13px;line-height:1.75;color:rgba(61,32,16,.78)}
+    .quote{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,5vw,46px);line-height:1.05;text-align:center;margin:14px auto;color:#251206}.quote em{font-style:italic;color:var(--brown)}
+    .process{display:grid;gap:12px;margin-top:16px}.step{display:grid;grid-template-columns:58px 1fr;gap:16px;align-items:start;padding:18px}.num{width:48px;height:48px;border-radius:50%;background:var(--goldgrad);display:flex;align-items:center;justify-content:center;color:#1a0a02;font-family:'Cormorant Garamond',serif;font-size:29px;box-shadow:0 10px 22px rgba(139,105,20,.22)}.step h4{font-size:29px}.step p{font-size:13px;line-height:1.65;color:rgba(61,32,16,.72)}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+    .mini{padding:18px;border-radius:22px;background:rgba(248,244,236,.48);border:1px solid rgba(123,79,36,.18);box-shadow:0 12px 32px rgba(61,32,16,.10)}.mini b{display:block;font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;color:#251206;margin-bottom:5px}.mini p{font-size:13px;line-height:1.65;color:rgba(61,32,16,.74)}
+    .form{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}.field{display:flex;flex-direction:column;gap:7px}.field.full{grid-column:1/-1}
+    label{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--brown2);font-weight:600}input,textarea,select{width:100%;border:1px solid rgba(123,79,36,.24);background:rgba(255,251,240,.5);border-radius:16px;padding:13px 14px;color:var(--body);font:400 14px/1.5 'DM Sans',sans-serif;outline:none}textarea{min-height:96px;resize:vertical}input:focus,textarea:focus,select:focus{border-color:var(--gold-dark);box-shadow:0 0 0 4px rgba(212,160,23,.12)}
+    .prompt{margin:14px 0;overflow:hidden;background:rgba(10,10,10,.88);color:var(--cream2);border-color:rgba(212,160,23,.28);box-shadow:0 20px 48px rgba(10,10,10,.18)}.prompt-h{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 13px;border-bottom:1px solid rgba(212,160,23,.14)}.prompt-h span{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-light);opacity:.86}.copy{border:1px solid rgba(212,160,23,.34);background:rgba(212,160,23,.08);color:var(--gold-light);font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:7px 11px;border-radius:999px;cursor:pointer;font-family:'DM Sans',sans-serif}.copy.ok{background:rgba(212,160,23,.24)}
+    pre{white-space:pre-wrap;word-break:break-word;font-family:'DM Sans',sans-serif;font-size:12px;line-height:1.75;padding:15px;max-height:520px;overflow:auto}
+    .btn{appearance:none;border:1px solid rgba(245,215,142,.36);border-radius:999px;background:linear-gradient(160deg,#0A0A0A 0%,#2B1608 58%,#0A0A0A 100%);color:var(--cream);text-decoration:none;font-size:10px;letter-spacing:.16em;text-transform:uppercase;padding:12px 18px;cursor:pointer;box-shadow:0 14px 30px rgba(10,10,10,.18);font-family:'DM Sans',sans-serif}.btn.secondary{background:rgba(248,244,236,.52);color:var(--body);border-color:rgba(123,79,36,.28);box-shadow:0 8px 18px rgba(61,32,16,.08)}.btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+    .footer{max-width:980px;margin:0 auto;padding:24px 18px 46px;text-align:center}.footer .line{height:1px;background:linear-gradient(90deg,transparent,var(--brown2),var(--gold),transparent);margin-bottom:18px}.footer p{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:rgba(61,32,16,.62);line-height:1.8}.footer a{color:var(--body);text-decoration:none;border-bottom:1px solid rgba(123,79,36,.3)}.topbtn{position:fixed;right:16px;bottom:16px;z-index:80;display:none}.topbtn.show{display:block}
+    .order-list{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}.order-item{padding:16px;border-radius:18px;background:rgba(248,244,236,.48);border:1px solid rgba(123,79,36,.18)}.order-item strong{display:block;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--brown2);margin-bottom:6px}.order-item p{font-size:13px;line-height:1.55;color:rgba(61,32,16,.74)}
+    @media(max-width:820px){body{background-attachment:scroll}.navcards{grid-template-columns:1fr 1fr}.grid2,.grid3,.grid4,.form,.order-list{grid-template-columns:1fr}.field.full{grid-column:auto}.brand img{width:52px}.hero{padding-top:34px}h1{font-size:58px}.top{padding-inline:12px}.links a{font-size:8px;padding:7px 9px}}
   </style>
 </head>
 <body>
   <div class="progress" id="progress"></div>
   <header class="top">
-    <div class="brand"><img src="assets/esg-logo.png" alt="ESG Experience"><span>ESG Experience™</span></div>
-    <nav class="links">
-      <a href="https://www.instagram.com/eilensg" target="_blank" rel="noopener">Instagram</a>
-      <a href="https://wa.me/17863032835" target="_blank" rel="noopener">WhatsApp</a>
-    </nav>
+    <div class="brand">
+      <img src="assets/esg-logo.png" alt="ESG Experience" />
+      <span>ESG Experience™</span>
+    </div>
+    <div class="links">
+      <a href="#flujo">Flujo</a>
+      <a href="#campos">Campos</a>
+      <a href="#prompts">Prompts</a>
+    </div>
   </header>
 
-  <section class="hero" id="inicio">
-    <div class="eyebrow">Protocolo JSON Ancla</div><div class="rule"></div>
-    <h1>El fin de los prompts <em>que salen mal</em></h1>
-    <p>Un sistema simple para extraer la estructura visual de una referencia, adaptarla a tus anclas de identidad y generar imágenes coherentes sin copiar la foto original.</p>
-    <div class="seal"><img src="assets/esg-butterfly.png" alt="Mariposa Dorada ESG"></div>
+  <section class="hero">
+    <div class="eyebrow">ESG Experience™ · Protocolo corregido</div>
+    <div class="rule"></div>
+    <h1>Protocolo <em>JSON Ancla</em></h1>
+    <p>Este documento corrige el flujo real del sistema ESG. Aquí no se copia una imagen. Se trabaja con JSON y bloqueos que la IA puede leer con jerarquía clara: <strong>escenario</strong>, <strong>sujeto</strong> y <strong>guía</strong>. Primero se extrae el JSON exacto de una referencia. Después se sustituye el sujeto con bloqueos de identidad. Luego se hacen solo los cambios pedidos. Al final se genera la imagen conservando pose, escena, estructura visual y calidad 8K sin ruido.</p>
+    <div class="seal"><img src="assets/esg-butterfly.png" alt="Mariposa ESG" /></div>
   </section>
 
-  <nav class="navcards">
-    <a class="navcard" href="#concepto"><span>01</span><strong>Concepto</strong></a>
-    <a class="navcard" href="#proceso"><span>02</span><strong>Proceso</strong></a>
-    <a class="navcard" href="#anclas"><span>03</span><strong>Anclas</strong></a>
-    <a class="navcard" href="#prompts"><span>04</span><strong>Prompts</strong></a>
-  </nav>
+  <div class="navcards">
+    <a class="navcard" href="#sistema"><span>Base conceptual</span><strong>ESG = Escenario, Sujeto, Guía</strong></a>
+    <a class="navcard" href="#flujo"><span>Proceso real</span><strong>Flujo corregido paso a paso</strong></a>
+    <a class="navcard" href="#campos"><span>Automatización</span><strong>Completa los campos y genera los prompts</strong></a>
+    <a class="navcard" href="#prompts"><span>Entrega lista</span><strong>Prompts listos para copiar</strong></a>
+  </div>
 
   <main>
-    <section id="concepto">
-      <div class="section-title"><h2>La clave no es el <em>JSON</em></h2><p>La tendencia es pedirle a la IA el JSON de una imagen. Eso ayuda, pero no basta. El JSON contiene la estructura visual que la IA detecta. Tu marca aparece cuando esa estructura se adapta a tus anclas.</p></div>
-      <div class="card">
-        <div class="kicker">Idea central</div>
-        <p class="txt">Copiar una foto no crea una marca. Lo que crea marca es extraer la esencia visual de una referencia y transformarla con tus elementos fijos: rostro, colores, fondo, estilo, composición y símbolos propios.</p>
-        <div class="quote">No es copiar la foto.<br><em>Es extraer su esencia</em><br>y adaptarla a tu marca.</div>
-        <div class="alert">Regla ESG: una referencia inspira. Tus anclas dirigen. El resultado debe parecer parte de tu universo visual, no una copia de la imagen original.</div>
+    <section id="sistema">
+      <div class="section-title">
+        <h2>Qué aplica el sistema <em>ESG</em></h2>
+        <p>El protocolo funciona separando la imagen en tres capas. Esa separación evita que la IA mezcle identidad, escena y cambios pedidos.</p>
       </div>
       <div class="grid3">
-        <div class="mini"><b>Referencia</b><p>Una imagen que te inspira por composición, atmósfera, pose, iluminación o estilo.</p></div>
-        <div class="mini"><b>JSON</b><p>La estructura visual detectada: encuadre, luz, paleta, objetos, posición, fondo y energía.</p></div>
-        <div class="mini"><b>Ancla</b><p>Los elementos que hacen que el resultado sea tuyo: identidad, color, fondo, marca y símbolos.</p></div>
+        <div class="mini"><b>Escenario</b><p>Es la estructura de la imagen: encuadre, pose, composición, luz, fondo, ambiente, objetos y atmósfera. Esta capa nace de la referencia Pinterest y normalmente se conserva.</p></div>
+        <div class="mini"><b>Sujeto</b><p>Es la persona o figura principal. Aquí se sustituye la persona del JSON 1 por el rostro y cuerpo base del usuario, manteniendo la estructura visual del escenario.</p></div>
+        <div class="mini"><b>Guía</b><p>Son las instrucciones de control: qué sí cambia, qué no cambia, qué colores usar, qué estilo de ropa aplicar y qué escenario conservar. La guía limita a la IA.</p></div>
       </div>
+      <div class="alert">Resumen práctico: <strong>Escenario</strong> = lo que se copia estructuralmente. <strong>Sujeto</strong> = a quién se reemplaza. <strong>Guía</strong> = qué cambios autorizas y qué elementos deben permanecer intactos.</div>
     </section>
 
-    <section id="proceso">
-      <div class="section-title"><h2>El proceso ESG<br><em>de una foto a tu marca</em></h2><p>Un flujo de cuatro pasos para convertir cualquier referencia visual en una imagen coherente, profesional y alineada a tu identidad.</p></div>
+    <section id="flujo">
+      <div class="section-title">
+        <h2>Flujo <em>corregido</em></h2>
+        <p>Este es el orden real para que el sistema funcione bien y no altere cosas que no pediste.</p>
+      </div>
       <div class="process">
-        <div class="step"><div class="num">1</div><div><h4>Referencia</h4><p>Usas una imagen de referencia que te inspira. No la copias. La analizas como punto de partida visual.</p></div></div>
-        <div class="step"><div class="num">2</div><div><h4>Extraes el JSON</h4><p>Le pides a la IA que detecte la estructura visual completa: composición, ángulo, luz, paleta, fondo, objetos, pose y atmósfera.</p></div></div>
-        <div class="step"><div class="num">3</div><div><h4>Aplicas tus anclas</h4><p>Adaptas el JSON a tu rostro, colores, fondo fijo, estilo de marca y elementos propietarios.</p></div></div>
-        <div class="step"><div class="num">4</div><div><h4>Resultado ESG</h4><p>Generas imágenes coherentes, alineadas a tu marca, listas para posicionar, vender o construir presencia visual.</p></div></div>
+        <div class="step"><div class="num">1</div><div><h4>Referencia Pinterest → JSON 1</h4><p>Se sube una sola referencia de Pinterest. Se extrae el <strong>JSON exacto</strong> de la imagen. Ese JSON debe contener la estructura visual detectada: pose, luz, composición, fondo, ropa, ambiente y estilo. Este primer JSON no cambia todavía el sujeto.</p></div></div>
+        <div class="step"><div class="num">2</div><div><h4>Rostro + cuerpo base → JSON 2</h4><p>Se suben dos imágenes más: una <strong>foto del rostro</strong> y una <strong>foto del cuerpo base</strong>. Luego se toma el JSON 1 y se pide sustituir las características del sujeto original por las de esas dos referencias. El resultado es el <strong>JSON 2</strong>.</p></div></div>
+        <div class="step"><div class="num">3</div><div><h4>Cambios selectivos sobre JSON 2</h4><p>Después se toma el JSON 2 y se piden solo los cambios específicos: <strong>color de ropa</strong>, <strong>estilo de ropa</strong>, <strong>fondo</strong> y <strong>ambiente</strong>, solo si el usuario lo pide. La <strong>pose</strong>, la <strong>estructura</strong> y los <strong>elementos de la imagen</strong> se copian exactamente. Si el usuario <strong>no pide cambiar el escenario</strong>, el escenario no se puede cambiar.</p></div></div>
+        <div class="step"><div class="num">4</div><div><h4>Prompt final de generación</h4><p>Con el JSON corregido y las imágenes ordenadas, se crea el prompt final: <strong>Imagen A = rostro</strong>, <strong>Imagen B = cuerpo base</strong>, <strong>Imagen C = referencia de escena</strong>. El prompt final indica a la IA qué referencias usar para el sujeto y cuál usar para escena, pose, luz y atmósfera.</p></div></div>
       </div>
     </section>
 
-    <section id="anclas">
-      <div class="section-title"><h2>Mis anclas <em>fijas</em></h2><p>Completa estos campos para construir tu prompt maestro. Mientras más precisas sean tus anclas, menos genérico será el resultado.</p></div>
+    <section>
+      <div class="card">
+        <div class="kicker">Reglas que no se rompen</div>
+        <div class="grid2">
+          <div class="soft">
+            <h4>Lo que se conserva</h4>
+            <p class="txt">Pose, encuadre, composición, dirección de luz, distribución de elementos y escenario original, salvo que el usuario pida un cambio puntual.</p>
+          </div>
+          <div class="soft">
+            <h4>Lo que sí puede cambiar</h4>
+            <p class="txt">Identidad del sujeto, color de ropa, estilo de ropa, fondo y ambiente, pero solo en la medida exacta de lo que el usuario especifique.</p>
+          </div>
+        </div>
+        <div class="alert"><strong>Regla central:</strong> si el usuario no pide cambio de escenario, el escenario se conserva. El protocolo no autoriza cambios “creativos” no solicitados.</div>
+      </div>
+    </section>
+
+    <section id="bloqueos">
+      <div class="section-title">
+        <h2>Bloqueos que la IA <em>sí entiende</em></h2>
+        <p>El protocolo no depende de pedir “parecido” en lenguaje suelto. Usa llaves de bloqueo dentro del JSON para separar identidad, cuerpo, escena y calidad.</p>
+      </div>
+      <div class="grid4">
+        <div class="mini"><b>IDENTITY_LOCK</b><p>Rostro, cejas, ojos, nariz, labios, tono de piel, cabello, edad percibida, expresión base e identidad reconocible. Tiene prioridad absoluta sobre la referencia Pinterest.</p></div>
+        <div class="mini"><b>BODY_LOCK</b><p>Proporciones corporales, complexión, altura percibida, postura base, volumen corporal y presencia física. La escena no puede cambiar el cuerpo.</p></div>
+        <div class="mini"><b>SCENE_LOCK</b><p>Pose, encuadre, cámara, luz, fondo, ambiente, objetos y composición de la referencia. Solo cambia si el usuario lo autoriza.</p></div>
+        <div class="mini"><b>QUALITY_LOCK</b><p>8K, máxima nitidez al hacer zoom, microdetalle limpio, piel natural, textura real, cero ruido y cero grano salvo que el usuario lo pida.</p></div>
+      </div>
+      <div class="alert"><strong>Jerarquía oficial:</strong> IDENTITY_LOCK + BODY_LOCK mandan sobre el sujeto. SCENE_LOCK manda sobre la escena. CHANGE_REQUEST solo autoriza cambios específicos. QUALITY_LOCK protege el resultado final.</div>
+    </section>
+
+    <section id="campos">
+      <div class="section-title">
+        <h2>Completa los <em>campos</em></h2>
+        <p>Estos campos alimentan automáticamente el prompt para crear el JSON 2, el prompt de ajustes sobre el JSON 2 y el prompt final de generación.</p>
+      </div>
       <div class="card">
         <div class="form">
-          <div class="field"><label for="avatar">Avatar base</label><input id="avatar" placeholder="Ej. usaré una imagen base de mi rostro / avatar / muñeca" /></div>
-          <div class="field"><label for="ropa">Colores de ropa</label><input id="ropa" placeholder="Ej. negro, marrón cuero, crema, dorado sutil" /></div>
-          <div class="field"><label for="fondo">Fondo fijo</label><input id="fondo" placeholder="Ej. textura piedra beige, estudio editorial cálido" /></div>
-          <div class="field"><label for="estilo">Estilo de marca</label><input id="estilo" placeholder="Ej. premium, editorial, femenino estructurado" /></div>
-          <div class="field full"><label for="elementos">Elementos de marca</label><textarea id="elementos" placeholder="Ej. mariposa dorada en relieve, logo ESG, laptop, cámara, libreta, bolso, tipografía editorial"></textarea></div>
-          <div class="field full"><label for="objetivo">Uso final de la imagen</label><textarea id="objetivo" placeholder="Ej. cover de carrusel, anuncio, imagen de marca, historia, landing page, mockup visual"></textarea></div>
+          <div class="field"><label for="faceRef">Referencia A · Rostro</label><input id="faceRef" placeholder="Ej. foto frontal del rostro del usuario, cabello rojo oscuro, ojos marrones" /></div>
+          <div class="field"><label for="bodyRef">Referencia B · Cuerpo base</label><input id="bodyRef" placeholder="Ej. foto del cuerpo base de pie, proporción femenina, pose neutra" /></div>
+          <div class="field full"><label for="subjectRule">Cómo debe sustituirse el sujeto</label><textarea id="subjectRule" placeholder="Ej. sustituir exactamente el rostro del sujeto original por el rostro de la imagen A y el cuerpo del sujeto original por el cuerpo base de la imagen B, manteniendo identidad fuerte y proporciones coherentes"></textarea></div>
+          <div class="field"><label for="clothesColors">Color de ropa</label><input id="clothesColors" placeholder="Ej. marrón espresso, negro, crema, dorado sutil" /></div>
+          <div class="field"><label for="clothesStyle">Estilo de ropa</label><input id="clothesStyle" placeholder="Ej. editorial premium, blazer estructurado, casual luxury" /></div>
+          <div class="field"><label for="background">Cambio de fondo / escenario</label><input id="background" placeholder="Ej. NO CAMBIAR ESCENARIO / estudio cálido / textura piedra beige" /></div>
+          <div class="field"><label for="ambience">Ambiente</label><input id="ambience" placeholder="Ej. cálido, editorial, limpio, profesional" /></div>
+          <div class="field full"><label for="fixedElements">Elementos que deben mantenerse</label><textarea id="fixedElements" placeholder="Ej. mantener pose, composición, dirección de luz, ángulo, objetos, distancia de cámara y estructura de la escena"></textarea></div>
+          <div class="field full"><label for="changeOnly">Cambios autorizados</label><textarea id="changeOnly" placeholder="Ej. solo cambiar sujeto, color de ropa y estilo de ropa; no alterar escenario si no se pide"></textarea></div>
+          <div class="field"><label for="finalUse">Uso final</label><input id="finalUse" placeholder="Ej. imagen de marca, portada, anuncio, carrusel, reel cover" /></div>
+          <div class="field"><label for="quality">Quality Lock</label><input id="quality" placeholder="8K, máxima nitidez al hacer zoom, cero ruido, cero grano, piel natural, textura limpia" /></div>
         </div>
-        <div class="btn-row"><button class="btn" onclick="buildAnchorPrompt()">Generar prompt con mis anclas</button><button class="btn secondary" onclick="clearFields()">Limpiar campos</button></div>
+        <div class="btn-row">
+          <button class="btn" onclick="updateGeneratedPrompts()">Actualizar prompts</button>
+          <button class="btn secondary" onclick="clearFields()">Limpiar campos</button>
+        </div>
       </div>
     </section>
 
     <section id="prompts">
-      <div class="section-title"><h2>Prompts <em>listos</em></h2><p>Usa estos prompts en Claude, ChatGPT o cualquier IA que permita analizar imágenes. Primero extrae, después adapta, luego genera.</p></div>
+      <div class="section-title">
+        <h2>Prompts <em>corregidos</em></h2>
+        <p>Los prompts ya siguen el flujo correcto. El prompt 2 deja el espacio para pegar el JSON 1. El prompt 3 trabaja solo sobre el JSON 2. El prompt final te dice el orden exacto de las imágenes.</p>
+      </div>
 
-      <div class="prompt"><div class="prompt-h"><span>Prompt 1 — Extraer JSON visual</span><button class="copy" onclick="copyBlock(this,'p1')">Copiar</button></div><pre id="p1">Voy a subir una imagen de referencia.
+      <div class="prompt"><div class="prompt-h"><span>Prompt 1 — Extraer JSON 1 de la referencia Pinterest</span><button class="copy" onclick="copyBlock(this,'p1')">Copiar</button></div><pre id="p1">Voy a subir una imagen de referencia de Pinterest.
 
-Extrae el JSON visual completo de esta imagen.
+Extrae el JSON visual exacto de esta imagen.
 
-No quiero que describas la imagen de forma superficial. Quiero una estructura visual útil para recrear la esencia de la referencia sin copiarla.
+No quiero una descripción superficial ni un prompt narrativo.
+Quiero un JSON técnico, limpio y reutilizable que la IA pueda entender como estructura visual.
 
-Analiza y entrega el JSON con estas secciones:
+Entrega el resultado como JSON 1 con estas llaves obligatorias:
 
-1. COMPOSICIÓN
-- encuadre
-- orientación
-- posición del sujeto
-- profundidad
-- distribución de elementos
+{
+  "REFERENCE_TYPE": "Pinterest visual reference",
+  "SCENE_LOCK": {
+    "composition": "",
+    "camera_angle": "",
+    "framing": "",
+    "pose": "",
+    "lighting": "",
+    "background": "",
+    "environment": "",
+    "props": "",
+    "object_positions": "",
+    "color_palette": "",
+    "visual_style": "",
+    "mood": ""
+  },
+  "ORIGINAL_SUBJECT_TO_REPLACE": {
+    "face": "",
+    "body": "",
+    "hair": "",
+    "outfit": "",
+    "expression": ""
+  },
+  "DO_NOT_COPY": [
+    "original person identity",
+    "original facial features",
+    "original body identity"
+  ],
+  "KEEP_EXACT": [
+    "pose",
+    "composition",
+    "scene structure",
+    "lighting direction",
+    "camera framing",
+    "environment",
+    "props and object placement"
+  ]
+}
 
-2. ILUMINACIÓN
-- tipo de luz
-- dirección
-- intensidad
-- sombras
-- reflejos
+Regla:
+Este JSON 1 solo extrae escenario, pose, composición, luz, objetos y estilo.
+Todavía no sustituyas el sujeto.
+Todavía no hagas cambios creativos.</pre></div>
 
-3. PALETA VISUAL
-- colores dominantes
-- colores secundarios
-- contraste
-- temperatura visual
+      <div class="prompt"><div class="prompt-h"><span>Prompt 2 — Crear JSON 2 sustituyendo el sujeto</span><button class="copy" onclick="copyBlock(this,'p2')">Copiar</button></div><pre id="p2"></pre></div>
 
-4. SUJETO / AVATAR / PRODUCTO
-- postura
-- expresión
-- proporciones visibles
-- ropa
-- detalles importantes
+      <div class="prompt"><div class="prompt-h"><span>Prompt 3 — Ajustar el JSON 2 solo en lo pedido</span><button class="copy" onclick="copyBlock(this,'p3')">Copiar</button></div><pre id="p3"></pre></div>
 
-5. FONDO Y AMBIENTE
-- locación
-- textura
-- atmósfera
-- elementos de apoyo
+      <div class="card">
+        <div class="kicker">Orden exacto de las imágenes para el prompt final</div>
+        <div class="order-list">
+          <div class="order-item"><strong>Imagen A</strong><p>Rostro del usuario. Esta imagen guía la identidad facial.</p></div>
+          <div class="order-item"><strong>Imagen B</strong><p>Cuerpo base. Esta imagen guía la estructura corporal y proporciones del sujeto.</p></div>
+          <div class="order-item"><strong>Imagen C</strong><p>Referencia Pinterest / escena. Esta imagen guía pose, composición, luz, fondo y atmósfera.</p></div>
+        </div>
+      </div>
 
-6. ESTILO VISUAL
-- estética
-- nivel de realismo
-- sensación emocional
-- tipo de marca que comunica
+      <div class="prompt"><div class="prompt-h"><span>Prompt 4 — Generar imagen final</span><button class="copy" onclick="copyBlock(this,'p4')">Copiar</button></div><pre id="p4"></pre></div>
 
-7. ELEMENTOS QUE NO DEBEN COPIARSE
-Identifica qué partes pertenecen a la imagen original y no deben repetirse literalmente.
-
-8. ESTRUCTURA REUTILIZABLE
-Convierte todo en un JSON limpio que pueda ser adaptado a otra identidad visual.</pre></div>
-
-      <div class="prompt"><div class="prompt-h"><span>Prompt 2 — Adaptar JSON a mis anclas</span><button class="copy" onclick="copyBlock(this,'p2')">Copiar</button></div><pre id="p2">Toma el JSON visual extraído de la referencia y adáptalo a mis anclas de identidad.
-
-MIS ANCLAS FIJAS:
-Avatar base: [usaré una imagen base / descripción del avatar]
-Colores de ropa: [escribir aquí]
-Fondo fijo: [escribir aquí]
-Estilo de marca: [escribir aquí]
-Elementos de marca: [escribir aquí]
-Uso final de la imagen: [escribir aquí]
-
-REGLA PRINCIPAL:
-Mantén estas anclas en todos los JSON que extraigas de futuras referencias.
-No quiero copiar la imagen original.
-Quiero conservar únicamente la estructura visual de la referencia y transformarla para que parezca parte de mi propia marca.
-
-ENTRÉGAME:
-1. JSON original detectado resumido.
-2. JSON adaptado a mis anclas.
-3. Lista de cambios realizados para mantener coherencia visual.
-4. Prompt final listo para generar la nueva imagen.</pre></div>
-
-      <div class="prompt"><div class="prompt-h"><span>Prompt 3 — Generar imagen final</span><button class="copy" onclick="copyBlock(this,'p3')">Copiar</button></div><pre id="p3">Voy a subir mi imagen base y el JSON adaptado.
-
-Genera una nueva imagen utilizando la estructura visual del JSON adaptado, pero manteniendo mis anclas de identidad.
-
-REGLAS:
-- No copies la imagen de referencia original.
-- Usa solo su estructura visual: composición, luz, atmósfera, pose y dirección estética.
-- Mantén mi avatar / rostro / personaje / producto según la imagen base.
-- Mantén mis colores de ropa, fondo fijo, estilo de marca y elementos propietarios.
-- El resultado debe sentirse como parte de mi marca, no como una imagen aislada.
-- Evita fondos genéricos, cambios de identidad, deformaciones, textos mal escritos o elementos que no pertenezcan a mi sistema visual.
-
-ENTREGA:
-Una imagen final coherente con mi identidad visual y lista para usar como pieza de marca.</pre></div>
-
-      <div class="prompt"><div class="prompt-h"><span>Prompt maestro generado con tus anclas</span><button class="copy" onclick="copyBlock(this,'generatedPrompt')">Copiar</button></div><pre id="generatedPrompt">Completa los campos de la sección “Mis anclas fijas” y presiona “Generar prompt con mis anclas”.</pre></div>
+      <div class="prompt"><div class="prompt-h"><span>Prompt maestro unificado</span><button class="copy" onclick="copyBlock(this,'masterPrompt')">Copiar</button></div><pre id="masterPrompt"></pre></div>
     </section>
 
     <section>
       <div class="card">
         <div class="kicker">Uso final</div>
-        <h3>Cómo aplicar el protocolo</h3>
+        <h3>Cómo aplicar el protocolo sin romperlo</h3>
         <div class="process">
-          <div class="step"><div class="num">1</div><div><h4>Abre un nuevo chat en modo imagen</h4><p>Empieza limpio para que la IA no arrastre instrucciones viejas.</p></div></div>
-          <div class="step"><div class="num">2</div><div><h4>Sube tu foto base</h4><p>Puede ser tu rostro, avatar, producto o elemento fijo de marca.</p></div></div>
-          <div class="step"><div class="num">3</div><div><h4>Pega el JSON adaptado</h4><p>No pegues solo la referencia. Pega la referencia transformada por tus anclas.</p></div></div>
-          <div class="step"><div class="num">4</div><div><h4>Genera tu nueva imagen</h4><p>Evalúa si se mantiene la misma esencia, misma marca y mismo sistema visual.</p></div></div>
-          <div class="step"><div class="num">5</div><div><h4>Repite con nuevas referencias</h4><p>Usa referencias distintas, pero conserva siempre las mismas anclas.</p></div></div>
+          <div class="step"><div class="num">1</div><div><h4>Extrae JSON 1</h4><p>Siempre desde la referencia Pinterest, sin mezclar todavía rostro ni cuerpo del usuario.</p></div></div>
+          <div class="step"><div class="num">2</div><div><h4>Crea JSON 2</h4><p>Sustituye el sujeto original usando imagen A para el rostro e imagen B para el cuerpo base.</p></div></div>
+          <div class="step"><div class="num">3</div><div><h4>Ajusta solo lo pedido</h4><p>Haz cambios controlados en ropa, estilo, fondo o ambiente sobre el JSON 2. No cambies escenario si el usuario no lo pidió.</p></div></div>
+          <div class="step"><div class="num">4</div><div><h4>Genera con A, B, C + JSON final</h4><p>El sujeto sale de A y B. La escena sale de C. La guía final sale del JSON ajustado y las reglas del usuario.</p></div></div>
         </div>
-        <div class="quote"><em>Misma esencia.</em><br>Misma marca.<br>Infinitas referencias.</div>
+        <div class="quote"><em>Mismo escenario.</em><br>Mismo sistema.<br>Mejor sujeto y mejor guía.</div>
       </div>
     </section>
   </main>
@@ -240,37 +282,325 @@ Una imagen final coherente con mi identidad visual y lista para usar como pieza 
         setTimeout(()=>{btn.textContent=old;btn.classList.remove('ok')},1600);
       });
     }
-    function v(id){return document.getElementById(id).value.trim() || '[completar aquí]'}
-    function buildAnchorPrompt(){
-      const text=`Voy a subir una imagen de referencia.
-
-Extrae el JSON visual completo de esta imagen.
-Después adapta ese JSON utilizando mis anclas de identidad.
-
-MIS ANCLAS FIJAS
-Avatar base: ${v('avatar')}
-Colores de ropa: ${v('ropa')}
-Fondo fijo: ${v('fondo')}
-Estilo de marca: ${v('estilo')}
-Elementos de marca: ${v('elementos')}
-Uso final de la imagen: ${v('objetivo')}
-
-REGLA PRINCIPAL
-Mantén estas anclas en todos los JSON que extraigas de futuras referencias.
-No quiero copiar la imagen original.
-Quiero conservar únicamente la estructura visual de la referencia y transformarla para que parezca parte de mi propia marca.
-
-ENTRÉGAME
-1. JSON original detectado.
-2. JSON adaptado a mis anclas.
-3. Lista de cambios realizados para mantener coherencia visual.
-4. Prompt final listo para generar una nueva imagen.
-
-El resultado debe mantener la misma esencia visual, pero con mi identidad de marca.`;
-      document.getElementById('generatedPrompt').textContent=text;
-      document.getElementById('generatedPrompt').scrollIntoView({behavior:'smooth',block:'center'});
+    function gv(id, fallback='[completar aquí]'){
+      const el=document.getElementById(id); if(!el) return fallback;
+      const val=(el.value||'').trim();
+      return val || fallback;
     }
-    function clearFields(){['avatar','ropa','fondo','estilo','elementos','objetivo'].forEach(id=>document.getElementById(id).value='');document.getElementById('generatedPrompt').textContent='Completa los campos de la sección “Mis anclas fijas” y presiona “Generar prompt con mis anclas”.'}
+    function clearFields(){
+      document.querySelectorAll('input, textarea').forEach(el=>el.value='');
+      updateGeneratedPrompts();
+    }
+    function updateGeneratedPrompts(){
+      const faceRef = gv('faceRef');
+      const bodyRef = gv('bodyRef');
+      const subjectRule = gv('subjectRule','sustituir el sujeto original por el sujeto definido por las imágenes A y B');
+      const clothesColors = gv('clothesColors');
+      const clothesStyle = gv('clothesStyle');
+      const background = gv('background','NO CAMBIAR ESCENARIO');
+      const ambience = gv('ambience');
+      const fixedElements = gv('fixedElements','mantener pose, composición, dirección de luz, ángulo, estructura de escena, objetos y distribución visual');
+      const changeOnly = gv('changeOnly','solo cambiar lo pedido por el usuario');
+      const finalUse = gv('finalUse');
+      const quality = gv('quality','8K, máxima nitidez al hacer zoom, cero ruido, cero grano, microdetalle limpio, piel natural, textura real');
+
+      const p2 = `Voy a subir 3 referencias.
+
+Imagen A = rostro del usuario.
+Imagen B = cuerpo base del usuario.
+Imagen C = referencia Pinterest de la que salió el JSON 1.
+
+A continuación voy a pegar el JSON 1 entre corchetes.
+
+[PEGA AQUÍ EL JSON 1]
+
+Toma el JSON 1 y crea un JSON 2.
+
+No quiero un prompt narrativo.
+Quiero un JSON técnico con bloqueos claros.
+
+Tu tarea:
+Sustituye el sujeto original detectado en ORIGINAL_SUBJECT_TO_REPLACE por el sujeto definido por:
+
+Imagen A — FACE_REFERENCE:
+${faceRef}
+
+Imagen B — BODY_REFERENCE:
+${bodyRef}
+
+Regla de sustitución del sujeto:
+${subjectRule}
+
+El JSON 2 debe tener esta estructura obligatoria:
+
+{
+  "IDENTITY_LOCK": {
+    "source": "Image A",
+    "priority": "absolute",
+    "face_shape": "",
+    "eyes": "",
+    "eyebrows": "",
+    "nose": "",
+    "lips": "",
+    "skin_tone": "",
+    "hair_color": "",
+    "hair_length": "",
+    "hair_style": "",
+    "distinctive_features": "",
+    "age_range_perception": "",
+    "expression_base": "",
+    "do_not_change": [
+      "facial identity",
+      "recognizable likeness",
+      "hair identity",
+      "skin tone",
+      "main facial structure"
+    ]
+  },
+  "BODY_LOCK": {
+    "source": "Image B",
+    "priority": "absolute",
+    "body_proportions": "",
+    "body_shape": "",
+    "height_perception": "",
+    "posture_base": "",
+    "shoulders": "",
+    "waist": "",
+    "hips": "",
+    "legs": "",
+    "overall_presence": "",
+    "do_not_change": [
+      "body proportions",
+      "body volume",
+      "body identity",
+      "physical presence"
+    ]
+  },
+  "SCENE_LOCK": {
+    "source": "Image C / JSON 1",
+    "priority": "preserve unless user requests change",
+    "composition": "",
+    "camera_angle": "",
+    "framing": "",
+    "pose": "",
+    "lighting": "",
+    "background": "",
+    "environment": "",
+    "props": "",
+    "object_positions": "",
+    "color_palette": "",
+    "visual_style": "",
+    "mood": "",
+    "do_not_change": [
+      "pose",
+      "composition",
+      "scene structure",
+      "lighting direction",
+      "camera framing",
+      "environment",
+      "props and object placement"
+    ]
+  },
+  "SUBJECT_REPLACEMENT_RULE": {
+    "replace_original_subject": true,
+    "use_identity_from_image_A": true,
+    "use_body_from_image_B": true,
+    "do_not_use_original_subject_identity_from_image_C": true
+  }
+}
+
+Prioridad absoluta:
+IDENTITY_LOCK y BODY_LOCK mandan sobre cualquier rostro, cuerpo o proporción detectada en Imagen C.
+Imagen C solo guía escena, pose, composición, luz, fondo y objetos.
+
+No cambies el escenario.
+No alteres la pose.
+No inventes nuevos elementos.
+Solo cambia el sujeto original por el sujeto de las imágenes A y B.
+
+Entrégame:
+1. JSON 2 completo.
+2. Lista breve de qué rasgos del sujeto fueron sustituidos.
+3. Confirmación clara de que el escenario y la estructura visual se conservaron.`;
+
+      const p3 = `Voy a pegar el JSON 2.
+
+Orden de imágenes de trabajo:
+- Imagen A = rostro
+- Imagen B = cuerpo base
+- Imagen C = referencia Pinterest / escena
+
+[PEGA AQUÍ EL JSON 2]
+
+Ahora ajusta el JSON 2 solo en lo que estoy pidiendo.
+
+No quiero un prompt narrativo.
+Quiero que actualices el JSON manteniendo los bloqueos.
+
+Cambios solicitados:
+{
+  "CHANGE_REQUEST": {
+    "clothing_color": "${clothesColors}",
+    "clothing_style": "${clothesStyle}",
+    "background_change": "${background}",
+    "ambience_change": "${ambience}",
+    "authorized_changes_only": "${changeOnly}"
+  }
+}
+
+Elementos que deben mantenerse:
+${fixedElements}
+
+Reglas obligatorias:
+- IDENTITY_LOCK no se cambia.
+- BODY_LOCK no se cambia.
+- SCENE_LOCK se conserva completo.
+- Si background_change dice NO CAMBIAR ESCENARIO, el escenario se conserva exactamente.
+- Copia exactamente la pose del JSON 2.
+- Conserva composición, luz, objetos, cámara y estructura visual.
+- No agregues objetos nuevos si no están pedidos.
+- No cambies el ambiente si no está pedido.
+- No reinterpretar: solo aplicar cambios autorizados.
+
+Añade también este bloque obligatorio:
+
+{
+  "QUALITY_LOCK": {
+    "resolution": "8K ultra sharp",
+    "zoom_detail": "maximum sharpness when zooming in",
+    "noise": "zero noise unless explicitly requested",
+    "grain": "no film grain unless explicitly requested",
+    "skin_texture": "natural realistic skin texture, not plastic",
+    "hair_detail": "clear individual hair definition",
+    "fabric_detail": "visible fabric or leather texture",
+    "metal_detail": "controlled gold reflections, no cheap shine",
+    "background_detail": "clean detailed environment, no blur unless requested",
+    "final_render": "${quality}"
+  }
+}
+
+Entrégame:
+1. JSON final corregido.
+2. Lista exacta de cambios aplicados.
+3. Lista exacta de elementos que permanecieron intactos.
+4. Confirmación de que QUALITY_LOCK quedó añadido.`;
+
+      const p4 = `Voy a subir 3 imágenes de referencia en este orden:
+
+Imagen A = rostro del usuario.
+Imagen B = cuerpo base del usuario.
+Imagen C = referencia Pinterest / escena.
+
+También voy a pegar el JSON final ya corregido.
+
+[PEGA AQUÍ EL JSON FINAL]
+
+Genera una imagen usando el JSON final como instrucción principal.
+
+No interpretes libremente.
+No trabajes solo desde el prompt.
+Lee y respeta los bloqueos del JSON.
+
+Jerarquía obligatoria:
+1. IDENTITY_LOCK — prioridad absoluta para rostro e identidad. Fuente: Imagen A.
+2. BODY_LOCK — prioridad absoluta para cuerpo y proporciones. Fuente: Imagen B.
+3. SCENE_LOCK — prioridad absoluta para escena, pose, cámara, luz, fondo, objetos y composición. Fuente: Imagen C.
+4. CHANGE_REQUEST — solo aplica los cambios autorizados.
+5. QUALITY_LOCK — render final en máxima calidad.
+
+Instrucciones:
+- usa Imagen A únicamente para el rostro, identidad facial, cabello, tono de piel y rasgos reconocibles.
+- usa Imagen B únicamente para cuerpo, proporciones y presencia física.
+- usa Imagen C únicamente para pose, composición, luz, fondo, ambiente, objetos y dirección estética.
+- usa el JSON final para decidir qué se conserva y qué cambia.
+
+Cambios autorizados:
+- ropa / color: ${clothesColors}
+- estilo de ropa: ${clothesStyle}
+- fondo / escenario: ${background}
+- ambiente: ${ambience}
+
+Calidad obligatoria:
+- ${quality}
+- 8K ultra sharp
+- máxima nitidez cuando se haga zoom
+- cero ruido
+- cero grano
+- piel natural, no plástica
+- textura real en ropa, cabello, accesorios y fondo
+- reflejos dorados controlados, sin brillo barato
+
+Uso final previsto:
+${finalUse}
+
+Prohibido:
+- no usar el rostro de la persona original de Imagen C.
+- no usar el cuerpo de la persona original de Imagen C.
+- no cambiar la identidad de Imagen A.
+- no alterar el cuerpo de Imagen B.
+- no cambiar la escena si no fue autorizado.
+- no cambiar pose, composición, cámara ni objetos.
+- no añadir ruido, grano, blur o estilo vintage salvo que el usuario lo pida.
+
+Resultado esperado:
+Una imagen final que conserve exactamente el escenario visual de Imagen C, pero con el sujeto bloqueado desde Imagen A y B, y con los cambios autorizados en el JSON final.`;
+
+      const master = `PROTOCOLO ESG JSON ANCLA — VERSIÓN CORREGIDA
+
+ESG APLICADO
+ESCENARIO = SCENE_LOCK
+SUJETO = IDENTITY_LOCK + BODY_LOCK
+GUÍA = CHANGE_REQUEST + QUALITY_LOCK
+
+FLUJO REAL
+1. Extraer JSON 1 de la referencia Pinterest.
+2. Crear JSON 2 sustituyendo el sujeto original por:
+   - Imagen A = rostro
+   - Imagen B = cuerpo base
+3. Ajustar JSON 2 solo con cambios autorizados.
+4. Generar imagen final usando:
+   - Imagen A para IDENTITY_LOCK
+   - Imagen B para BODY_LOCK
+   - Imagen C para SCENE_LOCK
+   - JSON final para CHANGE_REQUEST + QUALITY_LOCK
+
+DATOS DE ESTA EJECUCIÓN
+Rostro (A): ${faceRef}
+Cuerpo base (B): ${bodyRef}
+Regla de sujeto: ${subjectRule}
+Color de ropa: ${clothesColors}
+Estilo de ropa: ${clothesStyle}
+Fondo / escenario: ${background}
+Ambiente: ${ambience}
+Elementos a mantener: ${fixedElements}
+Cambios autorizados: ${changeOnly}
+Uso final: ${finalUse}
+Quality Lock: ${quality}
+
+JERARQUÍA
+1. IDENTITY_LOCK manda sobre rostro e identidad.
+2. BODY_LOCK manda sobre cuerpo y proporciones.
+3. SCENE_LOCK manda sobre pose, composición, luz, fondo y objetos.
+4. CHANGE_REQUEST solo permite cambios específicos.
+5. QUALITY_LOCK exige 8K, máxima nitidez al hacer zoom y cero ruido salvo petición expresa.
+
+REGLA CENTRAL
+Si el usuario no pide cambio de escenario, el escenario se conserva.
+Si el usuario no pide nuevos elementos, no se agregan.
+La IA no debe interpretar creativamente fuera del JSON.
+La pose y la estructura visual se mantienen.
+Solo cambia lo que la guía autoriza.`;
+
+      document.getElementById('p2').textContent = p2;
+      document.getElementById('p3').textContent = p3;
+      document.getElementById('p4').textContent = p4;
+      document.getElementById('masterPrompt').textContent = master;
+    }
+    document.querySelectorAll('input, textarea').forEach(el=>{
+      el.addEventListener('input', updateGeneratedPrompts);
+      el.addEventListener('change', updateGeneratedPrompts);
+    });
+    updateGeneratedPrompts();
   </script>
 </body>
 </html>
